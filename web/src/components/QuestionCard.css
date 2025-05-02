@@ -1,0 +1,36 @@
+.question-card {
+    background-color: #191919;
+    border-radius: 5vmin;
+    padding: 3vmin;
+}
+
+.answer-options {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #1f1f1f;
+    border-radius: 1vmin;
+    padding: 0.25vmin;
+}
+
+.question {
+    font-size: 8vmin;
+    padding: 3vmin;
+}
+
+.answer-option {
+    flex: 0 0 50%;  /* each cell takes 50% of the container width */
+    height: 50%;    /* each cell takes 50% of the container height */
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    border: 0.5vmin solid #1f1f1f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10vmin;
+    padding: 0px;
+}
+
+.answer-option:focus,
+.answer-option:focus-visible {
+  outline: 0px auto -webkit-focus-ring-color;
+}
