@@ -1,4 +1,4 @@
-import { getQuestionHandler } from "./src/handlers/getQuestionHandler"
+import { getQuestionHandler } from "./handlers/getQuestionHandler"
 
 export default {
     async fetch(request: Request): Promise<Response> {
