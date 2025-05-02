@@ -2,7 +2,7 @@
   "name": "doomsolver-cloudflare-worker",
   "version": "0.0.1",
   "description": "A worker for my doomsolver",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "dev": "wrangler dev",
     "build": "tsc",
