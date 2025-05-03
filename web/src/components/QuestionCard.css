@@ -37,5 +37,22 @@
 
 .answer-option:focus,
 .answer-option:focus-visible {
-  outline: 0px auto -webkit-focus-ring-color;
+    outline: 0px auto -webkit-focus-ring-color;
+}
+
+
+@keyframes fadeBorderToTransparent {
+    to {
+        border-color: transparent;
+    }
+}
+
+.fade-border-from-red {
+    border: 2px solid red;
+    animation: fadeBorderToTransparent 4s forwards;
+}
+
+.fade-border-from-green {
+    border: 2px solid rgb(85, 255, 47);
+    animation: fadeBorderToTransparent 1.5s forwards;
 }
