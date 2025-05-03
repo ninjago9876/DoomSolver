@@ -1,10 +1,8 @@
-import SubmitAnswerRequest from "../../../shared/server-io/submitAnswer.request";
-import SubmitAnswerResponse from "../../../shared/server-io/submitAnswer.response";
-
-import GetQuestionRequest from "../../../shared/server-io/getQuestion.request";
-import GetQuestionResponse from "../../../shared/server-io/getQuestion.response";
+import { Answer } from "../types/answer";
+import { Question } from "../types/question";
 
 export interface IQuestionService {
-    submitAnswer(request: SubmitAnswerRequest): Promise<SubmitAnswerResponse>;
-    getQuestion(request: GetQuestionRequest): Promise<GetQuestionResponse>;
+    storeAnswer(answer: Answer): Promise<void>
+    getQuestionAtID(id: string): Promise<Question>
+    findNextQuestion(id: string): Promise<Question>
 }

@@ -1,6 +1,0 @@
-name = "doomsolver-worker"
-main = "./dist/cloudflare-worker/src/index.js"
-compatibility_date = "2024-05-01"
-
-[build]
-command = "npm run build"

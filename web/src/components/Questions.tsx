@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import QuestionCard from "./QuestionCard"
-import { Question } from "../../../shared/types/question"
-import { QuestionService } from "../io/questionService"
-import SubmitAnswerResponse from "../../../shared/server-io/submitAnswer.response"
-import GetQuestionResponse from "../../../shared/server-io/getQuestion.response"
+import { Question } from "../types/question"
+import { checkAnswer, QuestionService } from "../io/questionService"
+import { Answer } from "../types/answer"
 
 function Questions() {
     const questionService = useMemo(() => { return new QuestionService }, [])
@@ -23,26 +22,19 @@ function Questions() {
     const [correctAnimationRunning, setCorrectAnimationRunning] = useState(false)
 
     useEffect(() => {
-        questionService.getQuestion({
-            questionID: "random"
-        }).then((response: GetQuestionResponse) => {
-            setCurrentQuestion(response.question)
+        questionService.getQuestionAtID("random").then((question: Question) => {
+            setCurrentQuestion(question)
         })
     }, [questionService])
 
-    const onAnswer = (optionIndex: number) => {      
+    const onAnswer = (answer: Answer) => {      
         if (incorrectAnimationRunning) { return }
 
-        const promise = questionService.submitAnswer({
-            answeredQuestionID: currentQuestion.id,
-            answerTimeMilliseconds: 0,
-            chosenOptionIndex: optionIndex
-        })
+        questionService.storeAnswer(answer)
 
-        let response: SubmitAnswerResponse
-        promise.then((res: SubmitAnswerResponse) => {
-            response = res
-            if (!response.correct) {
+        questionService.findNextQuestion(answer.question.id).then((newQuestion: Question) => {
+            const correct = checkAnswer(answer)
+            if (!correct) {
                 setIncorrectAnimationRunning(true)
                 
                 const incorrectSound = new Audio("/DoomSolver/incorrect.mp3");
@@ -50,18 +42,25 @@ function Questions() {
 
                 questionCardRef.current!.classList.remove("fade-border-from-green")
                 questionCardRef.current!.classList.add("fade-border-from-red")
+                questionCardRef.current!.classList.add("locked")
 
                 setTimeout(() => {
                     questionCardRef.current!.classList.remove("fade-border-from-red")
+                    questionCardRef.current!.classList.remove("locked")
 
                     setIncorrectAnimationRunning(false)
-                    setCurrentQuestion(response.newQuestion)
-                }, 2800)
+                    setCurrentQuestion(newQuestion)
+                }, 1000)
             } else {
-                setCurrentQuestion(response.newQuestion)
+                setCurrentQuestion(newQuestion)
                 
                 const correctSound = new Audio("/DoomSolver/correct.mp3");
                 correctSound.play().catch(() => {console.log("Couldn't play sound!")})
+
+                questionCardRef.current!.classList.add("pop-scale-in")
+                setTimeout(() => {
+                    questionCardRef.current!.classList.remove("pop-scale-in")
+                }, 400)
                 
                 if (!correctAnimationRunning) {
                     setCorrectAnimationRunning(true)

@@ -1,8 +1,6 @@
-import GetQuestionRequest from "../../../../shared/server-io/getQuestion.request";
-import GetQuestionResponse from "../../../../shared/server-io/getQuestion.response";
-import SubmitAnswerRequest from "../../../../shared/server-io/submitAnswer.request";
-import SubmitAnswerResponse from "../../../../shared/server-io/submitAnswer.response";
-import { Question } from "../../../../shared/types/question";
+import { randomIntExcluding } from "../../math/random";
+import { Answer } from "../../types/answer";
+import { Question } from "../../types/question";
 import { IQuestionService } from "../IQuestionService"
 
 const questions: Question[] = [
@@ -23,34 +21,24 @@ const questions: Question[] = [
 ]
 
 export class MockQuestionService implements IQuestionService {
-    async submitAnswer(request: SubmitAnswerRequest): Promise<SubmitAnswerResponse> {
-        const questionIndex = questions.findIndex((question: Question) => {
-            return question.id == request.answeredQuestionID;
-        })
-
-        return new Promise<SubmitAnswerResponse>((resolve) => {
-            setTimeout(() => {
-                resolve({
-                    newQuestion: questions[questionIndex+1],
-                    correct: questions[questionIndex].correctOption == request.chosenOptionIndex
-                })
-            }, 1000)
-        })
+    async storeAnswer(answer: Answer): Promise<void> {
+        console.log("Pretending to store answer: " + JSON.stringify(answer))
     }
-    async getQuestion(request: GetQuestionRequest): Promise<GetQuestionResponse> {
-        let questionIndex = 0;
-        if (request.questionID != "") {
-            questionIndex = questions.findIndex((question: Question) => {
-                return question.id == request.questionID;
+    async getQuestionAtID(id: string): Promise<Question> {
+        if (id == "random") { return questions[Math.floor(Math.random() * questions.length) % questions.length] }
+        const question: Question | undefined = questions.find((question: Question) => {
+            return question.id == id
+        })
+        if (!question) { return Promise.reject(`No question found with id: ${id}`) }
+        return question
+    }
+    async findNextQuestion(id: string): Promise<Question> {
+        return questions[randomIntExcluding(
+            questions.length,
+            questions.findIndex((question: Question) => {
+                return question.id == id
             })
-        }
-
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve({
-                    question: questions[questionIndex],
-                })
-            }, 1000)
-        })
+        )]
     }
+    
 }

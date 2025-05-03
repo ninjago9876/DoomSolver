@@ -1,10 +1,11 @@
 import { forwardRef } from "react"
 import './QuestionCard.css'
-import { Question } from "../../../shared/types/question"
+import { Question } from "../types/question"
+import { Answer } from "../types/answer";
 
 interface QuestionCardProps {
     question: Question;
-    onAnswer: (optionIndex: number, optionText: string) => void;
+    onAnswer: (answer: Answer) => void;
 }
 
 const QuestionCard = forwardRef<HTMLDivElement, QuestionCardProps>(({ question, onAnswer }, ref) => {
@@ -14,7 +15,11 @@ const QuestionCard = forwardRef<HTMLDivElement, QuestionCardProps>(({ question, 
             <div className="answer-options">
                 {question.options.length == 2 || question.options.length == 4 ? (
                     question.options.map((option, index) => (
-                        <button key={index} className="answer-option" onClick={() => onAnswer(index, option)}>{option}</button>
+                        <button key={index} className="answer-option" onClick={() => onAnswer({
+                            question: question,
+                            chosenOption: index,
+                            answerTimeMS: 0 // TODO: Change this to keep track of actual answer time
+                        })}>{option}</button>
                     ))
                 ) : (
                     <p className="error">Invalid number of answer options provided!</p>
