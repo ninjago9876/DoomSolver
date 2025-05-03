@@ -49,12 +49,12 @@
 
 @keyframes shake-rotate {
     0%   { transform: rotate(0deg); }
-    15%  { transform: rotate(-5deg); }
-    30%  { transform: rotate(5deg); }
-    45%  { transform: rotate(-5deg); }
-    60%  { transform: rotate(5deg); }
-    75%  { transform: rotate(-3deg); }
-    90%  { transform: rotate(3deg); }
+    15%  { transform: rotate(-1deg); }
+    30%  { transform: rotate(1deg); }
+    45%  { transform: rotate(-1deg); }
+    60%  { transform: rotate(1deg); }
+    75%  { transform: rotate(-0.5deg); }
+    90%  { transform: rotate(0.5deg); }
     100% { transform: rotate(0deg); }
 }
 @keyframes pop-scale {
@@ -65,13 +65,12 @@
   }
 
 .fade-border-from-red {
-    border: 2px solid red;
-    animation: fadeBorderToTransparent 1s forwards;
-    animation: shake-rotate 1s forwards;
+    border: 0.5vmin solid red;
+    animation: fadeBorderToTransparent 1.5s forwards;
 }
 
 .fade-border-from-green {
-    border: 2px solid rgb(85, 255, 47);
+    border: 0.5vmin solid rgb(85, 255, 47);
     animation: fadeBorderToTransparent 1.5s forwards;
 }
 
@@ -79,6 +78,10 @@
     animation: pop-scale 0.4s forwards;
 }
 
+.shake {
+    animation: shake-rotate 1s forwards;
+}
+
 .locked {
-    pointer-events: 0;
+    pointer-events: none;
 }
