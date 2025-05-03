@@ -1,1 +1,0 @@
-Implement a caching system on the frontend to minimize traffic to the CloudFlare worker
