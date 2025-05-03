@@ -9,6 +9,6 @@ export default {
         if (path == "/getQuestion" && method == "GET") {
             return getQuestionHandler(request)
         }
-        return Promise.reject(`invalid pathname ${path}`);
+        return new Response(`Invalid pathname: ${path}`, { status: 404 });
     }
 }
