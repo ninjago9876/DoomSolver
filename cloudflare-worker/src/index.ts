@@ -6,7 +6,7 @@ export default {
         const path = url.pathname
         const method = request.method.toUpperCase()
 
-        if (path == "/getQuestion" && method == "GET") {
+        if (path == "/getQuestion" && method == "POST") {
             return getQuestionHandler(request)
         }
         return new Response(`Invalid pathname: ${path}`, { status: 404 });

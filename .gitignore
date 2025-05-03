@@ -35,3 +35,6 @@ workers/worker.js
 .env
 .env.local
 .env.*.local
+
+# Wrangler
+.wrangler/

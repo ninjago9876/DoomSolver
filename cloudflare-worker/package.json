@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "build": "tsc",
-    "deploy": "wrangler publish"
+    "deploy": "wrangler deploy"
   },
   "author": "ninjago987",
   "license": "Apache-2.0",
