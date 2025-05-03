@@ -49,13 +49,16 @@ button {
   cursor: pointer;
   user-select: none;
   transition: border-color 0.25s;
+  outline-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+@media (hover: hover) {
+  button:hover {
+    border-color: #646cff; /* Or whatever your hover style is */
+  }
 }
 
 @media (prefers-color-scheme: light) {

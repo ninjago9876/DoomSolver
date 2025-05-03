@@ -32,6 +32,8 @@ function Questions() {
 
         questionService.storeAnswer(answer)
 
+        questionCardRef.current?.getAnswerOptionElement(answer.chosenOption)?.blur()
+
         questionService.findNextQuestion(answer.question.id).then((newQuestion: Question) => {
             const correct = checkAnswer(answer)
             if (!correct) {
