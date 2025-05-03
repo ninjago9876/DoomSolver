@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import QuestionCard from "./QuestionCard"
 import { Question } from "../../../shared/types/question"
-import { QuestionService } from "../server-io/questionService"
+import { QuestionService } from "../io/questionService"
 import SubmitAnswerResponse from "../../../shared/server-io/submitAnswer.response"
 import GetQuestionResponse from "../../../shared/server-io/getQuestion.response"
 
@@ -20,6 +20,7 @@ function Questions() {
 
     const [currentQuestion, setCurrentQuestion] = useState(loadingQuestion);
     const [incorrectAnimationRunning, setIncorrectAnimationRunning] = useState(false)
+    const [correctAnimationRunning, setCorrectAnimationRunning] = useState(false)
 
     useEffect(() => {
         questionService.getQuestion({
@@ -44,30 +45,32 @@ function Questions() {
             if (!response.correct) {
                 setIncorrectAnimationRunning(true)
                 
-                const incorrectSound = new Audio("/incorrect.mp3");
+                const incorrectSound = new Audio("/DoomSolver/incorrect.mp3");
                 incorrectSound.play().catch(() => {console.log("Couldn't play sound!")})
 
+                questionCardRef.current!.classList.remove("fade-border-from-green")
+                questionCardRef.current!.classList.add("fade-border-from-red")
+
                 setTimeout(() => {
-                    questionCardRef.current!.classList.remove("fade-border-from-green")
-                    questionCardRef.current!.classList.add("fade-border-from-red")
+                    questionCardRef.current!.classList.remove("fade-border-from-red")
 
-                    setTimeout(() => {
-                        questionCardRef.current!.classList.remove("fade-border-from-red")
-
-                        setIncorrectAnimationRunning(false)
-                        setCurrentQuestion(response.newQuestion)
-                    }, 2800)
-                }, 0)
+                    setIncorrectAnimationRunning(false)
+                    setCurrentQuestion(response.newQuestion)
+                }, 2800)
             } else {
                 setCurrentQuestion(response.newQuestion)
-
-                const correctSound = new Audio("/correct.mp3");
+                
+                const correctSound = new Audio("/DoomSolver/correct.mp3");
                 correctSound.play().catch(() => {console.log("Couldn't play sound!")})
-
-                questionCardRef.current!.classList.add("fade-border-from-green")
-                setTimeout(() => {
-                    questionCardRef.current!.classList.remove("fade-border-from-green")
-                }, 1500)
+                
+                if (!correctAnimationRunning) {
+                    setCorrectAnimationRunning(true)
+                    questionCardRef.current!.classList.add("fade-border-from-green")
+                    setTimeout(() => {
+                        questionCardRef.current!.classList.remove("fade-border-from-green")
+                        setCorrectAnimationRunning(false)
+                    }, 1500)
+                }
             }
         })
     }
