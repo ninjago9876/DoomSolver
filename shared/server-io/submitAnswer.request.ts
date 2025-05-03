@@ -1,7 +1,7 @@
 import { Question } from "../types/question";
 
 export default interface SubmitAnswerRequest {
-    answeredQuestion: Question;
+    answeredQuestionID: string;
     chosenOptionIndex: number;
     answerTimeMilliseconds: number;
 }

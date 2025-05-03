@@ -25,7 +25,7 @@ const questions: Question[] = [
 export class MockQuestionService implements IQuestionService {
     async submitAnswer(request: SubmitAnswerRequest): Promise<SubmitAnswerResponse> {
         const questionIndex = questions.findIndex((question: Question) => {
-            return question.id == request.answeredQuestion.id;
+            return question.id == request.answeredQuestionID;
         })
 
         return new Promise<SubmitAnswerResponse>((resolve) => {

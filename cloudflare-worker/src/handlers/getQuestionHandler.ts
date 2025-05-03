@@ -1,8 +1,7 @@
 import GetQuestionRequest from "../../../shared/server-io/getQuestion.request"
 import GetQuestionResponse from "../../../shared/server-io/getQuestion.response"
-import SubmitAnswerRequest from "../../../shared/server-io/submitAnswer.request"
-import SubmitAnswerResponse from "../../../shared/server-io/submitAnswer.response"
 import { Question } from "../../../shared/types/question"
+import { getQuestion } from "../database"
 
 const questions: Question[] = [
   {
@@ -22,34 +21,19 @@ const questions: Question[] = [
 ]
 
 export async function getQuestionHandler(request: Request): Promise<Response> {
-      let requestData: GetQuestionRequest = {
-        questionID: ""
-      }
-      let parsedData: GetQuestionRequest
+      let requestData: GetQuestionRequest | null
       try {
-        parsedData = await request.json()
+        requestData = await request.json()
       } catch {
-        parsedData = {
-          questionID: ""
-        }
+        requestData = null
       }
-      requestData = parsedData
+      
+      let question = getQuestion(requestData?.questionID)
+      if (!question) { return new Response(`Could not find question with id: ${requestData?.questionID}`) }
 
-      let question = questions.find((question: Question) => {
-        return question.id == requestData.questionID
-      })
-      if (requestData.questionID == "") {
-        question = questions[0]
-      }
-      if (!question) {
-        return new Response(`Could not find question with id: ${requestData.questionID}`)
-      }
-      const redactedQuestion = { ...question, correctOption: 0 }
-      const response: GetQuestionResponse = {
-        question: redactedQuestion
-      }
-
-      return new Response(JSON.stringify(response), {
+      return new Response(JSON.stringify({
+        question: { ...question, correctOption: -1 }
+      }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });
