@@ -76,6 +76,7 @@ function Questions() {
                 const correctSound = new Audio("/DoomSolver/correct.mp3");
                 correctSound.play().catch(() => {console.log("Couldn't play sound!")})
 
+                questionCardRef.current!.getContainer()!.classList.remove("pop-scale-in")
                 questionCardRef.current!.getContainer()!.classList.add("pop-scale-in")
                 setTimeout(() => {
                     questionCardRef.current!.getContainer()!.classList.remove("pop-scale-in")
