@@ -1,5 +1,4 @@
 import { forwardRef, useImperativeHandle, useRef } from "react"
-import './QuestionCard.css'
 import { Question } from "../types/question"
 import { Answer } from "../types/answer";
 
@@ -19,31 +18,20 @@ const QuestionCard = forwardRef<QuestionCardRef, QuestionCardProps>(({ question,
 
     useImperativeHandle(ref, () => ({
       getContainer: () => containerRef.current,
-      getAnswerOptionElement: (index: number) => {
-        return optionRefs.current[index]
-      },
+      getAnswerOptionElement: (index: number) => { return optionRefs.current[index] },
     }));
 
     return (
-        <div className="question-card" ref={containerRef}>
-            <p className="question">{question.prompt}</p>
-            <div className="answer-options">
-                {question.options.length == 2 || question.options.length == 4 ? (
+        <div className="" ref={containerRef}>
+            <p className="">{question.prompt}</p>
+            <div className="">
+                { question.options.length == 4 ? 
                     question.options.map((option, index) => (
-                        <button 
-                            key={index}
-                            ref={(el) => { optionRefs.current[index] = el }}
-                            className="answer-option"
-                            onClick={() => onAnswer({
-                                    question: question,
-                                    chosenOption: index,
-                                    answerTimeMS: 0 // TODO: Change this to keep track of actual answer time
-                                })
-                            }>{option}</button>
+                        <button key={index}>{option}</button>
                     ))
-                ) : (
-                    <p className="error">Invalid number of answer options provided!</p>
-                )}
+                    :
+                    <p>Invalid number of options!</p>
+                }
             </div>
         </div>
     )
