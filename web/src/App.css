@@ -1,12 +1,9 @@
-@layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "tailwindcss/utilities.css" layer(utilities);
-
-.panel {
-  @apply bg-white border-gray-200 border-4 rounded-xl text-gray-800
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.dark .panel {
-  @apply bg-gray-900 border-gray-800 border-4 rounded-xl text-gray-50
+.error {
+  color: red;
 }

@@ -1,9 +1,7 @@
 import { forwardRef, useImperativeHandle, useRef } from "react"
+import './QuestionCard.css'
 import { Question } from "../types/question"
 import { Answer } from "../types/answer";
-import { AnswerOptionButton } from "./AnswerOptionButton";
-
-// 
 
 interface QuestionCardProps {
     question: Question;
@@ -21,22 +19,31 @@ const QuestionCard = forwardRef<QuestionCardRef, QuestionCardProps>(({ question,
 
     useImperativeHandle(ref, () => ({
       getContainer: () => containerRef.current,
-      getAnswerOptionElement: (index: number) => { return optionRefs.current[index] },
+      getAnswerOptionElement: (index: number) => {
+        return optionRefs.current[index]
+      },
     }));
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            <div className="w-[80vmin] h-[80vmin] flex flex-wrap" ref={containerRef}>
-                <p className="">{question.prompt}</p>
-                <div className="">
-                    { question.options.length == 4 ? 
-                        question.options.map((option, index) => (
-                            <AnswerOptionButton key={index}>{option}</AnswerOptionButton>
-                        ))
-                        :
-                        <p>Invalid number of options!</p>
-                    }
-                </div>
+        <div className="question-card" ref={containerRef}>
+            <p className="question">{question.prompt}</p>
+            <div className="answer-options">
+                {question.options.length == 2 || question.options.length == 4 ? (
+                    question.options.map((option, index) => (
+                        <button 
+                            key={index}
+                            ref={(el) => { optionRefs.current[index] = el }}
+                            className="answer-option"
+                            onClick={() => onAnswer({
+                                    question: question,
+                                    chosenOption: index,
+                                    answerTimeMS: 0 // TODO: Change this to keep track of actual answer time
+                                })
+                            }>{option}</button>
+                    ))
+                ) : (
+                    <p className="error">Invalid number of answer options provided!</p>
+                )}
             </div>
         </div>
     )
