@@ -1,0 +1,27 @@
+:root {
+    --border-color: #e0e0e0;
+    --border-radius: 4vmin;
+    --border-width: 1vmin;
+
+    --dropshadow-opacity: 0.4;
+
+    --background-color: #f5f5f5;
+
+    --fill-color: white;
+
+    --border-accent-red: red;
+    --border-accent-green: lime;
+
+    --fill-accent-red: rgb(255, 163, 163);
+    --fill-accent-green: rgb(163, 255, 163);
+
+    --incorrect-answer-hold-time: 2s;
+
+    --transition-time: 0.5s;
+    --shake-animation-time: 1s;
+    --pop-animation-time: 0.4s;
+
+    --page-color: #f2f2f2;
+
+    --text-color: #444;
+}

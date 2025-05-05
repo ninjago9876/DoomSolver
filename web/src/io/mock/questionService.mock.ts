@@ -1,4 +1,4 @@
-import { randomIntExcluding } from "../../math/random";
+import { randomIntExcluding } from "../../utility/random";
 import { Answer } from "../../types/answer";
 import { Question } from "../../types/question";
 import { IQuestionService } from "../IQuestionService"

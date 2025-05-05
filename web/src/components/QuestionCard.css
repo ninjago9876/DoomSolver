@@ -1,17 +1,19 @@
+@import '../variables.css';
+
 .question-card {
-    background-color: #191919;
-    border-radius: 5vmin;
+    background-color: var(--fill-color);
+    border-radius: var(--border-radius);
     padding: 3vmin;
     width: 80vmin;
-    box-shadow: 0px 0px 35px 2px rgb(0, 0, 0, 0.7);
-    -webkit-box-shadow: 0px 0px 35px 2px rgba(0,0,0,0.7);
-    -moz-box-shadow: 0px 0px 35px 2px rgba(0,0,0,0.7);
+    box-shadow: 0px 0px 35px 2px rgb(0, 0, 0, var(--dropshadow-opacity));
+    -webkit-box-shadow: 0px 0px 35px 2px rgba(0,0,0,var(--dropshadow-opacity));
+    -moz-box-shadow: 0px 0px 35px 2px rgba(0,0,0,var(--dropshadow-opacity));
 }
 
 .answer-options {
     display: flex;
     flex-wrap: wrap;
-    background-color: #1f1f1f;
+    background-color: var(--border-color);
     border-radius: 1vmin;
     padding: 0.25vmin;
     aspect-ratio: 1.5;
@@ -20,6 +22,7 @@
 .question {
     font-size: 8vmin;
     line-height: 0;
+    color: var(--text-color);
 }
 
 .answer-option {
@@ -27,14 +30,15 @@
     height: 50%;
     aspect-ratio: 1;
     box-sizing: border-box;
-    border: 0.5vmin solid #1f1f1f;
-    background-color: #191919;
+    border: var(--border-width) solid var(--border-color);
+    background-color: var(--fill-color);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 10vmin;
     padding: 0px;
-    color: white;
+    color: var(--text-color);
+    transition: border-color var(--transition-time) ease, background-color var(--transition-time) ease;
 }
 
 .answer-option:focus,
@@ -42,31 +46,9 @@
     outline: 0px auto -webkit-focus-ring-color;
 }
 
-
-@keyframes fadeBorderToBorderColor {
-    to {
-        border-color: #1f1f1f;
-        border-width: 1vmin;
-    }
+.answer-option:hover {
+    border-color: #646cff;
 }
-@keyframes fadeBorderWidthTo0 {
-    to {
-        border-width: 0.5vmin;
-    }
-}
-
-@keyframes fadeBorderToBorderColorLight {
-    to {
-        border-color: #e0e0e0;
-        border-width: 1vmin;
-    }
-}
-@keyframes fadeBorderWidthTo0 {
-    to {
-        border-width: 0.5vmin;
-    }
-}
-
 
 @keyframes shake-rotate {
     0%   { transform: rotate(0deg); }
@@ -78,35 +60,15 @@
     90%  { transform: rotate(0.5deg); }
     100% { transform: rotate(0deg); }
 }
+
 @keyframes pop-scale {
     0%   { transform: scale(1); }
     30%  { transform: scale(0.9); }
     60%  { transform: scale(1.05); }
     100% { transform: scale(1); }
-  }
-
-.fade-border-from-red {
-    border: 1vmin solid red;
-    animation: fadeBorderToBorderColor 5s forwards;
 }
 
-.small-fade-border-from-red {
-    border: 0.5vmin solid red;
-    animation: fadeBorderToBorderColor 5s forwards;
-}
-
-.fade-border-from-green {
-    border: 0.5vmin solid rgb(85, 255, 47);
-    animation: fadeBorderToBorderColor 1.5s forwards;
-    animation: fadeBorderWidthTo0 1.5s forwards;
-}
-
-.long-fade-border-from-green {
-    border: 1vmin solid rgb(85, 255, 47);
-    animation: fadeBorderToBorderColor 5s forwards;
-}
-
-.pop-scale-in {
+.pop {
     animation: pop-scale 0.4s forwards;
 }
 
@@ -118,57 +80,12 @@
     pointer-events: none;
 }
 
-p {
-    color: #ffffff
+.light-up-red {
+    border-color: var(--border-accent-red);
+    background-color: var(--fill-accent-red);
 }
 
-@media (prefers-color-scheme: light) {
-    .question-card {
-        background-color: rgb(255, 255, 255);
-        border-radius: 5vmin;
-        padding: 3vmin;
-        width: 80vmin;
-        box-shadow: 0px 0px 35px 2px rgb(0, 0, 0, 0.7);
-        -webkit-box-shadow: 0px 0px 35px 2px rgba(0,0,0,0.7);
-        -moz-box-shadow: 0px 0px 35px 2px rgba(0,0,0,0.7);
-        color: #444
-    }
-    .answer-option {
-        color: #444;
-    }
-    p {
-        color: #444
-    }
-    .answer-options {
-        background-color: #e0e0e0;
-    }
-    .answer-option {
-        border-color: #e0e0e0;
-        background-color: #ffffff;
-    }
-
-    
-    .fade-border-from-red {
-        border: 1vmin solid red;
-        animation: fadeBorderToBorderColorLight 500s forwards;
-        animation: fadeBorderWidthTo0 10s forwards;
-    }
-
-    .small-fade-border-from-red {
-        border: 1vmin solid red;
-        animation: fadeBorderToBorderColorLight 500s forwards;
-        animation: fadeBorderWidthTo0 10s forwards;
-    }
-
-    .fade-border-from-green {
-        border: 1vmin solid rgb(85, 255, 47);
-        animation: fadeBorderToBorderColorLight 150s forwards;
-        animation: fadeBorderWidthTo0 10s forwards;
-    }
-
-    .long-fade-border-from-green {
-        border: 1vmin solid rgb(85, 255, 47);
-        animation: fadeBorderToBorderColorLight 500s forwards;
-        animation: fadeBorderWidthTo0 5s forwards;
-    }
+.light-up-green {
+    border-color: var(--border-accent-green);
+    background-color: var(--fill-accent-green);
 }

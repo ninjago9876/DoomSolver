@@ -2,12 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import QuestionCard, { QuestionCardRef } from "./QuestionCard"
 import { Question } from "../types/question"
 import { checkAnswer, QuestionService } from "../io/questionService"
-import { Answer } from "../types/answer"
+import { getCSSVariable, parseCSSTimeToMS } from "../utility/css-parse"
 
 function Questions() {
     const questionService = useMemo(() => { return new QuestionService }, [])
-
-    const questionCardRef = useRef<QuestionCardRef>(null);
+    const questionCardRef = useRef<QuestionCardRef>(null)
 
     const loadingQuestion: Question = {
         id: "loading",
@@ -18,9 +17,6 @@ function Questions() {
     }
 
     const [currentQuestion, setCurrentQuestion] = useState(loadingQuestion);
-    const [incorrectAnimationRunning, setIncorrectAnimationRunning] = useState(false)
-    // const [correctAnimationRunning, setCorrectAnimationRunning] = useState(false)
-    const [correctOutlineTimout, setCorrectOutlineTimeout] = useState(-1)
 
     useEffect(() => {
         questionService.getQuestionAtID("random").then((question: Question) => {
@@ -28,64 +24,46 @@ function Questions() {
         })
     }, [questionService])
 
-    const onAnswer = (answer: Answer) => {      
-        if (incorrectAnimationRunning) { return }
+    const onAnswer = (optionIndex: number) => {      
+        questionService.storeAnswer({
+            chosenOption: optionIndex,
+            answerTimeMS: 0,
+            question: currentQuestion
+        })
 
-        questionService.storeAnswer(answer)
+        questionService.findNextQuestion(currentQuestion.id).then((newQuestion: Question) => {
+            const correct = checkAnswer({
+                chosenOption: optionIndex,
+                answerTimeMS: 0,
+                question: currentQuestion
+            })
 
-        questionCardRef.current?.getAnswerOptionElement(answer.chosenOption)?.blur()
-
-        questionService.findNextQuestion(answer.question.id).then((newQuestion: Question) => {
-            const correct = checkAnswer(answer)
             if (!correct) {
-                setIncorrectAnimationRunning(true)
-                
                 const incorrectSound = new Audio("/DoomSolver/incorrect.mp3");
                 incorrectSound.play().catch(() => {console.log("Couldn't play sound!")})
 
-                questionCardRef.current!.getContainer()!.classList.remove("fade-border-from-green")
-                questionCardRef.current!.getContainer()!.classList.add("small-fade-border-from-red")
-                questionCardRef.current!.getContainer()!.classList.add("shake")
-                questionCardRef.current!.getContainer()!.classList.add("locked")
-
-                questionCardRef.current?.getAnswerOptionElement(answer.chosenOption)?.classList.add("fade-border-from-red")
-                questionCardRef.current?.getAnswerOptionElement(
-                    answer.question.correctOption
-                )?.classList.add("long-fade-border-from-green")
+                questionCardRef.current?.triggerShakeAnimation()
+                questionCardRef.current?.lightUpOption(currentQuestion.correctOption, "red")
+                questionCardRef.current?.setLocked(true)
 
                 setTimeout(() => {
-                    questionCardRef.current!.getContainer()!.classList.remove("small-fade-border-from-red")
-                    questionCardRef.current!.getContainer()!.classList.remove("shake")
-                    questionCardRef.current!.getContainer()!.classList.remove("locked")
-                    questionCardRef.current?.getAnswerOptionElement(answer.chosenOption)?.classList.remove("fade-border-from-red")
-                    questionCardRef.current?.getAnswerOptionElement(
-                        answer.question.correctOption
-                    )?.classList.remove("long-fade-border-from-green")
-
-                    setIncorrectAnimationRunning(false)
                     setCurrentQuestion(newQuestion)
-                    questionCardRef.current!.getContainer()!.classList.add("pop-scale-in")
-                    setTimeout(() => {
-                        questionCardRef.current!.getContainer()!.classList.remove("pop-scale-in")
-                    }, 400)
-                }, 5000)
+                    questionCardRef.current?.triggerPopAnimation()
+                    questionCardRef.current?.lightUpOption(currentQuestion.correctOption, "none")
+                    questionCardRef.current?.setLocked(false)
+
+                }, parseCSSTimeToMS(getCSSVariable("--incorrect-answer-hold-time")))
             } else {
                 setCurrentQuestion(newQuestion)
-                clearTimeout(correctOutlineTimout)
+                questionCardRef.current?.triggerPopAnimation()
+
+                questionCardRef.current?.lightUpOption(optionIndex, "green")
+                setTimeout(() => {
+                    questionCardRef.current?.lightUpOption(optionIndex, "none")
+                }, 200)
                 
                 const correctSound = new Audio("/DoomSolver/correct.mp3");
                 correctSound.play().catch(() => {console.log("Couldn't play sound!")})
-
-                questionCardRef.current!.getContainer()!.classList.remove("pop-scale-in")
-                questionCardRef.current!.getContainer()!.classList.add("pop-scale-in")
-                setTimeout(() => {
-                    questionCardRef.current!.getContainer()!.classList.remove("pop-scale-in")
-                }, 400)
-                
-                questionCardRef.current!.getContainer()!.classList.add("fade-border-from-green")
-                setCorrectOutlineTimeout(setTimeout(() => {
-                    questionCardRef.current!.getContainer()!.classList.remove("fade-border-from-green")
-                }, 2000))
             }
         })
     }
