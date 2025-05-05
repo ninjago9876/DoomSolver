@@ -18,7 +18,7 @@ function transitionToNextQuestion(questionCardRef: RefObject<QuestionCardRef>, n
     return
 }
 
-function Questions() {
+export function Questions() {
     const questionService = useMemo(() => { return new QuestionService }, [])
     const questionCardRef = useRef<QuestionCardRef>(null);
 

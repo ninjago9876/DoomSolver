@@ -1,6 +1,9 @@
 import { forwardRef, useImperativeHandle, useRef } from "react"
 import { Question } from "../types/question"
 import { Answer } from "../types/answer";
+import { AnswerOptionButton } from "./AnswerOptionButton";
+
+// 
 
 interface QuestionCardProps {
     question: Question;
@@ -22,16 +25,18 @@ const QuestionCard = forwardRef<QuestionCardRef, QuestionCardProps>(({ question,
     }));
 
     return (
-        <div className="" ref={containerRef}>
-            <p className="">{question.prompt}</p>
-            <div className="">
-                { question.options.length == 4 ? 
-                    question.options.map((option, index) => (
-                        <button key={index}>{option}</button>
-                    ))
-                    :
-                    <p>Invalid number of options!</p>
-                }
+        <div className="flex items-center justify-center h-screen">
+            <div className="w-[80vmin] h-[80vmin] flex flex-wrap" ref={containerRef}>
+                <p className="">{question.prompt}</p>
+                <div className="">
+                    { question.options.length == 4 ? 
+                        question.options.map((option, index) => (
+                            <AnswerOptionButton key={index}>{option}</AnswerOptionButton>
+                        ))
+                        :
+                        <p>Invalid number of options!</p>
+                    }
+                </div>
             </div>
         </div>
     )

@@ -1,18 +1,13 @@
 import './App.css'
 import { AnswerOptionButton } from './components/AnswerOptionButton'
-import { Button } from './components/Button'
-
+import Questions from './components/Questions'
 function App() {
   return (
     <>
       {/* <Questions></Questions> */}
-      <AnswerOptionButton
-        lightState='none'
-        onClick={() => alert("hi you pressed")}>
+      <Questions>
 
-          Press me!
-
-      </AnswerOptionButton>
+      </Questions>
     </>
   )
 }

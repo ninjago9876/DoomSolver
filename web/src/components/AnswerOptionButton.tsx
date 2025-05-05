@@ -1,23 +1,26 @@
 import React from "react";
 import { Button } from "./Button";
+import clsx from "clsx";
 
 export interface AnswerOptionButtonProps {
-    lightState: ("incorrect" | "correct" | "none"),
-    onClick: () => void
+    lightState?: ("incorrect" | "correct" | "none"),
+    onClick?: () => void
 }
 
 export const AnswerOptionButton: React.FC<AnswerOptionButtonProps & React.PropsWithChildren> = (
     { lightState, onClick, children }) => {
     
         return (
-            <div
-                className="bg-red-500"
-            >
-                <Button
+            <div>
+                <button
+                    className={clsx([
+                        "w-1/2 aspect-square flex items-center justify-center",
+                        "panel"
+                    ])}
                     onClick={onClick}
                 >
                     {children}
-                </Button>
+                </button>
             </div>
         )
 }
