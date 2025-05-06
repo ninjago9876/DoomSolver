@@ -1,6 +1,6 @@
 :root {
     --border-color: #e0e0e0;
-    --border-radius: 4vmin;
+    --border-radius: 2vmin;
     --border-width: 1vmin;
 
     --dropshadow-opacity: 0.4;
@@ -8,6 +8,7 @@
     --background-color: #f5f5f5;
 
     --fill-color: white;
+    --sub-fill-color: white;
 
     --border-accent-red: red;
     --border-accent-green: lime;
@@ -24,4 +25,23 @@
     --page-color: #f2f2f2;
 
     --text-color: #444;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --border-color: #303030;
+    
+        --background-color: #1a1a1a;
+    
+        --fill-color: #1e1e1e;
+        --sub-fill-color: #1b1b1b;
+    
+        --border-accent-red: #ef4444;
+        --border-accent-green: #10b92f;
+    
+        --fill-accent-red: #883232;
+        --fill-accent-green: #318139;
+    
+        --text-color: #e0e0e0;
+    }    
 }

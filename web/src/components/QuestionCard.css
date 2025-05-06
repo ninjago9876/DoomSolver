@@ -3,20 +3,22 @@
 .question-card {
     background-color: var(--fill-color);
     border-radius: var(--border-radius);
-    padding: 3vmin;
-    width: 80vmin;
+    padding: 2vmin;
+    width: 70vmin;
     box-shadow: 0px 0px 35px 2px rgb(0, 0, 0, var(--dropshadow-opacity));
     -webkit-box-shadow: 0px 0px 35px 2px rgba(0,0,0,var(--dropshadow-opacity));
     -moz-box-shadow: 0px 0px 35px 2px rgba(0,0,0,var(--dropshadow-opacity));
 }
 
 .answer-options {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: var(--border-color);
-    border-radius: 1vmin;
-    padding: 0.25vmin;
-    aspect-ratio: 1.5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: var(--sub-fill-color);
+    border-radius: var(--border-radius);
+    aspect-ratio: 1.25;
+    padding: 1vmin;
+    gap: 1vmin;
 }
 
 .question {
@@ -26,15 +28,12 @@
 }
 
 .answer-option {
-    flex: 0 0 50%;
-    height: 50%;
-    aspect-ratio: 1;
-    box-sizing: border-box;
-    border: var(--border-width) solid var(--border-color);
-    background-color: var(--fill-color);
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    border: var(--border-width) solid var(--border-color);
+    background-color: var(--fill-color);
     font-size: 10vmin;
     padding: 0px;
     color: var(--text-color);
@@ -81,11 +80,11 @@
 }
 
 .light-up-red {
-    border-color: var(--border-accent-red);
-    background-color: var(--fill-accent-red);
+    border-color: var(--border-accent-red) !important;
+    background-color: var(--fill-accent-red) !important;
 }
 
 .light-up-green {
-    border-color: var(--border-accent-green);
-    background-color: var(--fill-accent-green);
+    border-color: var(--border-accent-green) !important;
+    background-color: var(--fill-accent-green) !important;
 }
