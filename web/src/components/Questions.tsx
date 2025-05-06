@@ -9,6 +9,7 @@ function Questions() {
     const questionCardRef = useRef<QuestionCardRef>(null)
 
     const loadingQuestion: Question = {
+        variables: {},
         id: "loading",
         prompt: "Loading... Please wait",
         options: ["...", "...", "...", "..."],
