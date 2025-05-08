@@ -1,3 +1,9 @@
+import { Question } from "../types/question";
+
+// export function tryEvaluateFunction(expression: string, variables: Record<string, string>) {
+
+// }
+
 export function parseExpression(expression: string, variables: Record<string, string>, processing: Set<string> = new Set()): string {
     return expression.replace(/<<([a-zA-Z0-9_-]+)>>/g, (_, name) => {
         if (!variables[name]) {
@@ -12,4 +18,15 @@ export function parseExpression(expression: string, variables: Record<string, st
         processing.delete(name)
         return evaluatedVariable;
     });
+}
+
+export function parseQuestion(question: Question): Question {
+    const newQuestion = structuredClone(question)
+    const variables: Record<string, string> = structuredClone(question.variables)
+    variables["correct-option"] = question.correctOption.toString()
+    newQuestion.prompt = parseExpression(question.prompt, variables)
+    question.options.forEach((option, index) => {
+        newQuestion.options[index] = parseExpression(option, variables)
+    })
+    return newQuestion
 }
