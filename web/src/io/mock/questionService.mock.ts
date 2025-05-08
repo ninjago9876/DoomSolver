@@ -8,11 +8,11 @@ const questions: Question[] = [
     {
         variables: {
             "term1": "1",
-            "term2": "2"
+            "term2": "3"
         },
         id: "addition_0",
         prompt: "What is <<term1>> + <<term2>>?",
-        options: ["1", "5", "10", "3"],
+        options: ["1", "<<correct-option>>", "10", "<<add(term1, term2)>>"],
         tags: ["arithmetic", "addition", "easy"],
         correctOption: 3
     },
