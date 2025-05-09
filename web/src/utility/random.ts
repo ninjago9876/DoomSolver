@@ -1,7 +1,17 @@
-export function randomIntExcluding(n: number, exclude: number) {
-    if (n <= 1) throw new Error("n must be at least 2 to exclude a value.");
-    if (exclude < 0 || exclude >= n) throw new Error("Exclude must be in range [0, n)");
+export function randomIntExcluding(min: number, max: number, excluded: number) {
+    if (max - min <= 1) {
+      return min
+    }
   
-    const rand = Math.floor(Math.random() * (n - 1));
-    return rand >= exclude ? rand + 1 : rand;
-}
+    if (excluded < min || excluded >= max) {
+      // If the excluded number isn't in range, return any number in range
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+  
+    let rand = Math.floor(Math.random() * (max - min - 1));
+    if (rand + min >= excluded) {
+      rand++; // Skip the excluded number
+    }
+  
+    return rand + min;
+  }

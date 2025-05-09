@@ -111,7 +111,8 @@ export function parseVariableReference(expression: string, variables: Record<str
     
     // Return the previously found result of parseExpression() as a string
 
-    if (parseFloat(expression)) { return expression }
+    if (!isNaN(parseFloat(expression))) { return expression }
+    if (!isNaN(parseInt(expression))) { return expression }
 
     if (expression.match(/[^a-zA-Z0-9-_]/)) { throw new ExpressionError(`Invalid characters found in variable usage: ${expression}`, expression) }
     if (processing.has(expression)) {
@@ -141,15 +142,11 @@ export function parseExpression(expression: string, variables: Record<string, st
         }
     } catch (e) {
         console.error(`Expression: ${expression} failed to parse, error: \n${e}`)
-        return "Parsing failed, see logs"
+        return "[FAILED]"
     }
 }
 
 export function parseGenericText(text: string, variables: Record<string, string>): string {
-    if (typeof text !== "string") {
-        return "Input text is not a string!"
-    }
-
     return text.replace(/<<(.*?)>>/g, (_match, value) => {
         return parseExpression(value, variables)
     })
@@ -158,7 +155,10 @@ export function parseGenericText(text: string, variables: Record<string, string>
 export function parseQuestion(question: Question): Question {
     const newQuestion = structuredClone(question)
     const variables: Record<string, string> = structuredClone(question.variables)
-    variables["correct-option"] = question.correctOption.toString()
+    if (newQuestion.correctOption === -1) {
+        newQuestion.correctOption = Math.floor(Math.random() * 4)
+    }
+    variables["correct-option"] = newQuestion.correctOption.toString()
     newQuestion.prompt = parseGenericText(question.prompt, variables)
     question.options.forEach((option, index) => {
         newQuestion.options[index] = parseGenericText(option, variables)

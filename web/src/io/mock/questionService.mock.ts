@@ -7,26 +7,40 @@ import { parseQuestion } from "../../utility/field-parser";
 const questions: Question[] = [
     {
         variables: {
-            "term1": "1",
-            "term2": "3"
+            "term1": "randint(1, 10)",
+            "term2": "randint(1, 10)",
+            "correct": "add(term1, term2)",
+            "seed": "randint(1, 10000)"
         },
-        id: "addition_0",
+        id: "addition_1-10",
         prompt: "What is <<term1>> + <<term2>>?",
-        options: ["1", "<<correct-option>>", "10", "<<add(term1, term2)>>"],
-        tags: ["arithmetic", "addition", "easy"],
-        correctOption: 3
+        options: [
+            "<<variate-option(correct, correct-option, 0, 5, 0, seed)>>",
+            "<<variate-option(correct, correct-option, 1, 5, 0, seed)>>",
+            "<<variate-option(correct, correct-option, 2, 5, 0, seed)>>", 
+            "<<variate-option(correct, correct-option, 3, 5, 0, seed)>>"
+        ],
+        tags: ["math", "arithmetic", "addition", "easy"],
+        correctOption: -1
     },
     {
         variables: {
-            "term1": "10",
-            "term2": "3"
+            "term1": "randint(1, 10)",
+            "term2": "randint(1, 10)",
+            "correct": "mult(term1, term2)",
+            "seed": "randint(1, 10000)"
         },
-        id: "addition_1",
-        prompt: "What is <<term1>> + <<term2>>?",
-        options: ["8", "2", "13", "6"],
-        tags: ["arithmetic", "addition", "easy"],
-        correctOption: 2
-    }
+        id: "multiplication_1-10",
+        prompt: "What is <<term1>> * <<term2>>?",
+        options: [
+            "<<variate-option(correct, correct-option, 0, 5, 0, seed)>>",
+            "<<variate-option(correct, correct-option, 1, 5, 0, seed)>>",
+            "<<variate-option(correct, correct-option, 2, 5, 0, seed)>>", 
+            "<<variate-option(correct, correct-option, 3, 5, 0, seed)>>"
+        ],
+        tags: ["math", "arithmetic", "multiplication", "easy"],
+        correctOption: -1
+    },
 ]
 
 export class MockQuestionService implements IQuestionService {
@@ -48,6 +62,7 @@ export class MockQuestionService implements IQuestionService {
     }
     async findNextQuestion(id: string): Promise<Question> {
         return this.getQuestionAtID(questions[randomIntExcluding(
+            0,
             questions.length,
             questions.findIndex((question: Question) => {
                 return question.id == id
