@@ -1,4 +1,3 @@
-import random from 'random'
 import { randomIntExcluding } from "./random"
 
 export const expressionFunctions: Record<string, (...params: string[]) => string> = {
