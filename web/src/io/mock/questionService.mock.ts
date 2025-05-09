@@ -25,6 +25,24 @@ const questions: Question[] = [
     },
     {
         variables: {
+            "term1": "randint(1, 100)",
+            "term2": "randint(1, 100)",
+            "correct": "add(term1, term2)",
+            "seed": "randint(1, 10000)"
+        },
+        id: "addition_1-100",
+        prompt: "What is <<term1>> + <<term2>>?",
+        options: [
+            "<<variate-option(correct, correct-option, 0, 5, 0, seed)>>",
+            "<<variate-option(correct, correct-option, 1, 5, 0, seed)>>",
+            "<<variate-option(correct, correct-option, 2, 5, 0, seed)>>", 
+            "<<variate-option(correct, correct-option, 3, 5, 0, seed)>>"
+        ],
+        tags: ["math", "arithmetic", "addition", "medium"],
+        correctOption: -1
+    },
+    {
+        variables: {
             "term1": "randint(1, 10)",
             "term2": "randint(1, 10)",
             "correct": "mult(term1, term2)",
@@ -39,6 +57,24 @@ const questions: Question[] = [
             "<<variate-option(correct, correct-option, 3, 5, 0, seed)>>"
         ],
         tags: ["math", "arithmetic", "multiplication", "easy"],
+        correctOption: -1
+    },
+    {
+        variables: {
+            "term1": "randint(1, 20)",
+            "term2": "randint(1, 20)",
+            "correct": "mult(term1, term2)",
+            "seed": "randint(1, 10000)"
+        },
+        id: "multiplication_1-20",
+        prompt: "What is <<term1>> * <<term2>>?",
+        options: [
+            "<<variate-option(correct, correct-option, 0, 5, 0, seed)>>",
+            "<<variate-option(correct, correct-option, 1, 5, 0, seed)>>",
+            "<<variate-option(correct, correct-option, 2, 5, 0, seed)>>", 
+            "<<variate-option(correct, correct-option, 3, 5, 0, seed)>>"
+        ],
+        tags: ["math", "arithmetic", "multiplication", "medium"],
         correctOption: -1
     },
 ]
