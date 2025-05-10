@@ -1,17 +1,20 @@
-export function randomIntExcluding(min: number, max: number, excluded: number) {
+export function randomIntExcluding(min: number, max: number, excluded: number): number {
     if (max - min <= 1) {
-      return min
+        if (excluded >= min && excluded < max) {
+        throw new Error("No valid number to return; only one possible value and it's excluded.");
+        }
+        return min;
     }
-  
+
     if (excluded < min || excluded >= max) {
-      // If the excluded number isn't in range, return any number in range
-      return Math.floor(Math.random() * (max - min)) + min;
+        return Math.floor(Math.random() * (max - min)) + min;
     }
-  
+
     let rand = Math.floor(Math.random() * (max - min - 1));
     if (rand + min >= excluded) {
-      rand++; // Skip the excluded number
+        rand++; // Skip excluded value
     }
-  
+
     return rand + min;
-  }
+}
+  
